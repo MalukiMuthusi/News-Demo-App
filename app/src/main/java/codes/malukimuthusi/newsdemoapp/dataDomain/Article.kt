@@ -1,6 +1,4 @@
-package codes.malukimuthusi.newsdemoapp.data
-
-import javax.sql.CommonDataSource
+package codes.malukimuthusi.newsdemoapp.dataDomain
 
 data class Article(
     val source: ArticleSource,

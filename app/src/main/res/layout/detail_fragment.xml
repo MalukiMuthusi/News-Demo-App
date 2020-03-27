@@ -9,5 +9,5 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".DetailView.DetailFragment" />
+        tools:context=".viewDetail.DetailFragment" />
 </layout>

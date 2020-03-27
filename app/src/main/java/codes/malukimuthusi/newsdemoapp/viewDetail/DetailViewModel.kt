@@ -1,4 +1,4 @@
-package codes.malukimuthusi.newsdemoapp.DetailView
+package codes.malukimuthusi.newsdemoapp.viewDetail
 
 import androidx.lifecycle.ViewModel
 

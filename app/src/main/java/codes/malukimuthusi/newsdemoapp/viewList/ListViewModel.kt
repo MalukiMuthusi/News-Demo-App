@@ -1,4 +1,4 @@
-package codes.malukimuthusi.newsdemoapp.ListView
+package codes.malukimuthusi.newsdemoapp.viewList
 
 import androidx.lifecycle.ViewModel
 

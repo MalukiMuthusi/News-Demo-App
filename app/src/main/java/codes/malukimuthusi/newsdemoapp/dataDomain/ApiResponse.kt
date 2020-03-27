@@ -1,4 +1,4 @@
-package codes.malukimuthusi.newsdemoapp.data
+package codes.malukimuthusi.newsdemoapp.dataDomain
 
 data class ApiResponse(
     val status: String,
