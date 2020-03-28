@@ -10,6 +10,7 @@ import codes.malukimuthusi.newsdemoapp.network.ArticleService
 import codes.malukimuthusi.newsdemoapp.network.Network
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 /*
 * Create repository that will be used as the data source.
