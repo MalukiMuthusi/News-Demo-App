@@ -3,11 +3,12 @@ package codes.malukimuthusi.newsdemoapp.viewList
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
-import codes.malukimuthusi.newsdemoapp.database.getDatabase
+import codes.malukimuthusi.newsdemoapp.database.ArticleDao
 import codes.malukimuthusi.newsdemoapp.repository.ArticleRepository
 import kotlinx.coroutines.*
 
-class ListViewModel(application: Application) : AndroidViewModel(application) {
+class ListViewModel(application: Application, databaseDAO: ArticleDao) :
+    AndroidViewModel(application) {
     /**
      * This is the job for all coroutines started by this ViewModel.
      *
@@ -24,16 +25,10 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
     private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     /*
-    * get instance of the database.
-    *
-    * */
-    private val database = getDatabase(application)
-
-    /*
     * create a repository object.
     *
     * */
-    private val articleRepository = ArticleRepository(database)
+    private val articleRepository = ArticleRepository(databaseDAO)
 
     /*
     * init is called imediately when this viewModel is created.

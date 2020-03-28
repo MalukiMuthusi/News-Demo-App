@@ -3,6 +3,7 @@ package codes.malukimuthusi.newsdemoapp.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import codes.malukimuthusi.newsdemoapp.dataDomain.Article
+import codes.malukimuthusi.newsdemoapp.database.ArticleDao
 import codes.malukimuthusi.newsdemoapp.database.ArticleDatabase
 import codes.malukimuthusi.newsdemoapp.database.asDataDomainModel
 import codes.malukimuthusi.newsdemoapp.network.ArticleService
@@ -16,7 +17,7 @@ import kotlinx.coroutines.withContext
 * The repository fetches data from the local room database.
 * It refreshes the local data with data from the News API Service.
 * */
-class ArticleRepository(private val database: ArticleDatabase) {
+class ArticleRepository(private val articleDao: ArticleDao) {
 
     /*
     * Get a LiveData List of Articles. (as Data Domain Model)
@@ -24,7 +25,7 @@ class ArticleRepository(private val database: ArticleDatabase) {
     * Convert the articles to Domain Data Model.
     * */
     val articles: LiveData<List<Article>> =
-        Transformations.map(database.articleDao.getAllArticles()) { it.asDataDomainModel() }
+        Transformations.map(articleDao.getAllArticles()) { it.asDataDomainModel() }
 
 
     /*
@@ -37,7 +38,7 @@ class ArticleRepository(private val database: ArticleDatabase) {
         withContext(Dispatchers.IO)
         {
             val articles = Network.apiService.getArtilces().await()
-            database.articleDao.insertArticle(*articles.asDatabaseModel())
+            articleDao.insertArticle(*articles.asDatabaseModel())
         }
     }
 

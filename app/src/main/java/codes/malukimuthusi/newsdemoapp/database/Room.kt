@@ -26,32 +26,3 @@ interface ArticleDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertArticle(vararg articleDB: ArticleDB)
 }
-
-/*
-* Create Room Database
-*
-* */
-@Database(entities = [ArticleDB::class], version = 1)
-abstract class ArticleDatabase() : RoomDatabase() {
-    abstract val articleDao: ArticleDao
-}
-
-private lateinit var INSTANCE: ArticleDatabase
-/*
-* Create database.
-*
-* Only creates one instance of the database.
-* */
-fun getDatabase(context: Context): ArticleDatabase {
-    synchronized(ArticleDatabase::class.java) {
-        if (!::INSTANCE.isInitialized) {
-            INSTANCE = Room.databaseBuilder(
-                context.applicationContext,
-                ArticleDatabase::class.java,
-                "news_db"
-            )
-                .build()
-        }
-    }
-    return INSTANCE
-}
