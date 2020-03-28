@@ -4,6 +4,10 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="codes.malukimuthusi.newsdemoapp.viewList.ListViewModel" />
+
     </data>
 
     <FrameLayout
