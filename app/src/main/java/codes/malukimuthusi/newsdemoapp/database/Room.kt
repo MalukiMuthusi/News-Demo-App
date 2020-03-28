@@ -18,13 +18,13 @@ interface ArticleDao {
     * Returns a LiveData List of Articles.
     * */
     @Query("SELECT * FROM articles_table")
-    fun getAllArticles(): LiveData<ArticleDB>
+    fun getAllArticles(): LiveData<List<ArticleDB>>
 
     /*
     * Insert an Article.
     * */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertArticle(articleDB: ArticleDB)
+    fun insertArticle(vararg articleDB: ArticleDB)
 }
 
 /*

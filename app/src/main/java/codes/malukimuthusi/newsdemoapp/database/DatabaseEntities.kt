@@ -60,18 +60,33 @@ data class ArticleDB(
     /*
     * Function to convert ArticleDB Entity into a dataDomain Model
     * */
-    fun List<ArticleDB>.asDataDomainModel(): List<Article> {
-        return map {
-            Article(
-                author = it.author,
-                source = it.source.asDataDomainModel(),
-                title = it.title,
-                description = it.description,
-                url = it.url,
-                urlToImage = it.urlToImage,
-                publishedAt = it.publishedAt,
-                content = it.content
-            )
-        }
+    fun asDataDomainModel(): Article {
+        return Article(
+            author = author,
+            source = source.asDataDomainModel(),
+            title = title,
+            description = description,
+            url = url,
+            urlToImage = urlToImage,
+            publishedAt = publishedAt,
+            content = content
+        )
+
+    }
+}
+
+fun List<ArticleDB>.asDataDomainModel(): List<Article> {
+    return map {
+        Article(
+            author = it.author,
+            source = it.source.asDataDomainModel(),
+            title = it.title,
+            description = it.description,
+            url = it.url,
+            urlToImage = it.urlToImage,
+            publishedAt = it.publishedAt,
+            content = it.content
+
+        )
     }
 }
