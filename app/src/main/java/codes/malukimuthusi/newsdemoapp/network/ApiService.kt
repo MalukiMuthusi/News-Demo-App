@@ -12,10 +12,10 @@ import retrofit2.http.GET
 * Retrofit Service to fetch News Article
 *
 * */
-private const val BASEURL = "https://newsapi.org/v2/top-headlines"
+private const val BASEURL = "https://newsapi.org/v2/"
 
 interface ArticleService {
-    @GET("")
+    @GET("top-headlines?country=us&apiKey=24bb98441b3240d98aaf3f0f966eb444")
     fun getArtilces(): Deferred<ApiResponse>
 }
 

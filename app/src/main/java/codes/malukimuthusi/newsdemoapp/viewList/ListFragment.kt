@@ -14,9 +14,6 @@ import codes.malukimuthusi.newsdemoapp.databinding.ListFragmentBinding
 
 class ListFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = ListFragment()
-    }
 
     private lateinit var viewModel: ListViewModel
 
@@ -30,23 +27,6 @@ class ListFragment : Fragment() {
         * */
         val binding = ListFragmentBinding.inflate(inflater)
 
-        /*
-        * Bind ViewModel to lifecyle of this Fragment.
-        *
-        * */
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
-
-
-        /*
-        * Return a UI View.
-        *
-        * */
-        return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
 
         /*
        * Create a viewModel Object.
@@ -60,11 +40,27 @@ class ListFragment : Fragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ListViewModel::class.java)
 
         /*
+        * Bind ViewModel to lifecyle of this Fragment.
+        *
+        * */
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+
+
+        /*
         * Observe Changes in List of Articles.
         *
         * When the Articles change update UI.
         * */
-        viewModel.articles.observe(viewLifecycleOwner, Observer { TODO("Submit Article List") })
+//        viewModel.articles.observe(viewLifecycleOwner, Observer { TODO("Submit Article List") })
+
+
+        /*
+        * Return a UI View.
+        *
+        * */
+        return binding.root
     }
+
 
 }

@@ -10,6 +10,7 @@ import codes.malukimuthusi.newsdemoapp.network.ArticleService
 import codes.malukimuthusi.newsdemoapp.network.Network
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 /*
 * Create repository that will be used as the data source.
@@ -37,6 +38,7 @@ class ArticleRepository(private val articleDao: ArticleDao) {
     suspend fun refreshArticles() {
         withContext(Dispatchers.IO)
         {
+            Timber.d("refresh videos is called")
             val articles = Network.apiService.getArtilces().await()
             articleDao.insertArticle(*articles.asDatabaseModel())
         }
