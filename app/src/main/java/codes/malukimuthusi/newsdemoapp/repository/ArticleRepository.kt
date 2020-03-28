@@ -38,6 +38,7 @@ class ArticleRepository(private val articleDao: ArticleDao) {
     suspend fun refreshArticles() {
         withContext(Dispatchers.IO)
         {
+            Timber.d("refresh videos is called")
             val articles = Network.apiService.getArtilces().await()
             articleDao.insertArticle(*articles.asDatabaseModel())
         }
