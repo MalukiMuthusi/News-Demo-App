@@ -55,7 +55,7 @@ data class ArticleDB(
     @PrimaryKey() val url: String,
     val urlToImage: String?,
     val publishedAt: String,
-    val content: String
+    val content: String?
 ) {
     /*
     * Function to convert ArticleDB Entity into a dataDomain Model

@@ -46,13 +46,26 @@ class ListFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
+        /*
+        * Create an Adapter.
+        *
+        * */
+        val adapter = ArticlesAdapter(
+            ArticleClickListener { }
+        )
+        binding.articleList.adapter = adapter
+
 
         /*
         * Observe Changes in List of Articles.
         *
         * When the Articles change update UI.
         * */
-//        viewModel.articles.observe(viewLifecycleOwner, Observer { TODO("Submit Article List") })
+        viewModel.articles.observe(viewLifecycleOwner, Observer {
+            it.let {
+                adapter.submitList(it)
+            }
+        })
 
 
         /*
