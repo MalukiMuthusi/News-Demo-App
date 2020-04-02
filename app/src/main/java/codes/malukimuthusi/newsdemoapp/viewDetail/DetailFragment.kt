@@ -9,6 +9,7 @@ import android.view.ViewGroup
 
 import codes.malukimuthusi.newsdemoapp.R
 
+@Suppress("DEPRECATION")
 class DetailFragment : Fragment() {
 
     companion object {
