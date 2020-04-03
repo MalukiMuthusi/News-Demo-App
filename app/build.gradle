@@ -78,4 +78,5 @@ dependencies {
 solve
 Cannot fit requested classes in a single dex file (# methods: 66633 > 65536)*/
     implementation 'com.android.support:multidex:1.0.3'
+    implementation 'androidx.paging:paging-runtime-ktx:2.1.2'
 }

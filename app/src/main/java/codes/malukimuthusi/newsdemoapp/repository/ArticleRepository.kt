@@ -2,7 +2,11 @@ package codes.malukimuthusi.newsdemoapp.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
+import androidx.paging.DataSource
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import codes.malukimuthusi.newsdemoapp.dataDomain.Article
+import codes.malukimuthusi.newsdemoapp.database.ArticleDB
 import codes.malukimuthusi.newsdemoapp.database.ArticleDao
 import codes.malukimuthusi.newsdemoapp.database.ArticleDatabase
 import codes.malukimuthusi.newsdemoapp.database.asDataDomainModel
@@ -25,9 +29,10 @@ class ArticleRepository(private val articleDao: ArticleDao) {
     *
     * Convert the articles to Domain Data Model.
     * */
-    val articles: LiveData<List<Article>> =
-        Transformations.map(articleDao.getAllArticles()) { it.asDataDomainModel() }
 
+    val articlesFactory: DataSource.Factory<Int, ArticleDB> = articleDao.getAllArticles()
+    val articles = LivePagedListBuilder(articlesFactory, DATABASE_PAGE_SIZE).build()
+//    val articles = Transformations.map(articlesAsDB) { it.asDataDomainModel() }
 
     /*
     * Refresh the Articles in the Database, the offline Cache.
@@ -42,6 +47,11 @@ class ArticleRepository(private val articleDao: ArticleDao) {
             val articles = Network.apiService.getArtilces().await()
             articleDao.insertArticle(*articles.asDatabaseModel())
         }
+    }
+
+    companion object {
+        private const val NETWORK_PAGE_SIZE = 50
+        private const val DATABASE_PAGE_SIZE = 20
     }
 
 }

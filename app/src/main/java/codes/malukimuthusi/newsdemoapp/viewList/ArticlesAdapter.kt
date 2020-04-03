@@ -2,10 +2,12 @@ package codes.malukimuthusi.newsdemoapp.viewList
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import codes.malukimuthusi.newsdemoapp.dataDomain.Article
+import codes.malukimuthusi.newsdemoapp.database.ArticleDB
 import codes.malukimuthusi.newsdemoapp.databinding.SingleItemBinding
 
 /*
@@ -13,7 +15,7 @@ import codes.malukimuthusi.newsdemoapp.databinding.SingleItemBinding
 *
 * */
 class ArticlesAdapter(private val clickListener: ArticleClickListener) :
-    ListAdapter<Article, RecyclerView.ViewHolder>(ArticleDiff()) {
+    PagedListAdapter<ArticleDB, RecyclerView.ViewHolder>(ArticleDiff()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ArticleViewHolder.from(parent)
     }
@@ -21,7 +23,7 @@ class ArticlesAdapter(private val clickListener: ArticleClickListener) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is ArticleViewHolder -> {
-                holder.bind(getItem(position), clickListener)
+                holder.bind(getItem(position)!!, clickListener)
             }
         }
     }
@@ -40,7 +42,7 @@ class ArticleViewHolder private constructor(private val binding: SingleItemBindi
     * Bind data to the View
     *
     * */
-    fun bind(article: Article, clickListener: ArticleClickListener) {
+    fun bind(article: ArticleDB, clickListener: ArticleClickListener) {
         binding.article = article
         binding.clickListener = clickListener
 
@@ -65,12 +67,12 @@ class ArticleViewHolder private constructor(private val binding: SingleItemBindi
 * This class is used calculate data changes for the ListAdapter.
 *
 * */
-class ArticleDiff : DiffUtil.ItemCallback<Article>() {
-    override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
+class ArticleDiff : DiffUtil.ItemCallback<ArticleDB>() {
+    override fun areItemsTheSame(oldItem: ArticleDB, newItem: ArticleDB): Boolean {
         return oldItem.url == newItem.url
     }
 
-    override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
+    override fun areContentsTheSame(oldItem: ArticleDB, newItem: ArticleDB): Boolean {
         return oldItem == newItem
     }
 }

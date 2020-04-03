@@ -11,7 +11,7 @@
 
         <variable
             name="article"
-            type="codes.malukimuthusi.newsdemoapp.dataDomain.Article" />
+            type="codes.malukimuthusi.newsdemoapp.database.ArticleDB" />
 
     </data>
 
@@ -49,8 +49,13 @@
                     android:id="@+id/articleTitleText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_thin"
                     android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
                     android:text="@{article.title}"
+                    android:textSize="@dimen/titleFontSize"
+                    android:textStyle="bold"
                     android:visibility="visible" />
 
                 <TextView
@@ -58,7 +63,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="2dp"
-                    android:text="@{article.description}" />
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="@{article.description}"
+                    android:textSize="@dimen/descFontSize" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </FrameLayout>

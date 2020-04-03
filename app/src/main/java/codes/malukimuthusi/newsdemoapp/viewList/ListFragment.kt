@@ -7,8 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
+import androidx.paging.PagedList
 
 import codes.malukimuthusi.newsdemoapp.R
+import codes.malukimuthusi.newsdemoapp.dataDomain.Article
+import codes.malukimuthusi.newsdemoapp.database.ArticleDB
 import codes.malukimuthusi.newsdemoapp.database.ArticleDatabase
 import codes.malukimuthusi.newsdemoapp.databinding.ListFragmentBinding
 
@@ -61,7 +65,7 @@ class ListFragment : Fragment() {
         *
         * When the Articles change update UI.
         * */
-        viewModel.articles.observe(viewLifecycleOwner, Observer {
+        viewModel.articles.observe(viewLifecycleOwner, Observer<PagedList<ArticleDB>> {
             it.let {
                 adapter.submitList(it)
             }

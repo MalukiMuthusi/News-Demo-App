@@ -2,8 +2,10 @@ package codes.malukimuthusi.newsdemoapp.database
 
 import android.content.Context
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.*
 import androidx.room.Room.databaseBuilder
+import codes.malukimuthusi.newsdemoapp.dataDomain.Article
 
 /*
 * Database Access Object. DAO
@@ -18,7 +20,7 @@ interface ArticleDao {
     * Returns a LiveData List of Articles.
     * */
     @Query("SELECT * FROM articles_table")
-    fun getAllArticles(): LiveData<List<ArticleDB>>
+    fun getAllArticles(): DataSource.Factory<Int, ArticleDB>
 
     /*
     * Insert an Article.
