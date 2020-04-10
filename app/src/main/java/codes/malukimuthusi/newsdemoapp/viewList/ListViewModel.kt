@@ -3,6 +3,7 @@ package codes.malukimuthusi.newsdemoapp.viewList
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
+import androidx.work.WorkManager
 import codes.malukimuthusi.newsdemoapp.database.ArticleDao
 import codes.malukimuthusi.newsdemoapp.repository.ArticleRepository
 import kotlinx.coroutines.*
@@ -34,16 +35,6 @@ class ListViewModel(application: Application, databaseDAO: ArticleDao) :
     * init is called imediately when this viewModel is created.
     *
     * */
-    init {
-        /*
-        * Refresh the database.
-        *
-        * The database will always be populated with items.
-        * */
-        viewModelScope.launch {
-            articleRepository.refreshArticles()
-        }
-    }
 
     /*
     * Live data of a list of articles.
@@ -63,4 +54,6 @@ class ListViewModel(application: Application, databaseDAO: ArticleDao) :
         * */
         viewModelScope.cancel()
     }
+
+
 }

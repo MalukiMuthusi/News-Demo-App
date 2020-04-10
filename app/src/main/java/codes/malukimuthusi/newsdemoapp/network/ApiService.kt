@@ -24,7 +24,7 @@ interface ArticleService {
 *
 * Retrofit uses moshi to parse json response string to kotlin objects.
 * */
-private val moshi = Moshi.Builder()
+private val mosh = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
     .build()
 
@@ -39,7 +39,7 @@ object Network {
     * */
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASEURL)
-        .addConverterFactory(MoshiConverterFactory.create(moshi))
+        .addConverterFactory(MoshiConverterFactory.create(mosh))
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .build()
 

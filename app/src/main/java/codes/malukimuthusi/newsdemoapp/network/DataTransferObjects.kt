@@ -31,25 +31,6 @@ data class ApiResponse(
 ) {
 
     /*
-    * Convert the response into a Data Domain Model.
-    *
-    * */
-    fun asDataDomainModel(): List<Article> {
-        return articles.map {
-            Article(
-                source = it.source.asDataDomainModel(),
-                author = it.author,
-                title = it.title,
-                description = it.description,
-                url = it.url,
-                urlToImage = it.urlToImage,
-                publishedAt = it.publishedAt,
-                content = it.content
-            )
-        }
-    }
-
-    /*
     * Convert the response into a Database Model
     *
     * */

@@ -45,6 +45,8 @@ class ArticleRepository(private val articleDao: ArticleDao) {
         {
             Timber.d("refresh videos is called")
             val articles = Network.apiService.getArtilces().await()
+
+            // * spread operator used.
             articleDao.insertArticle(*articles.asDatabaseModel())
         }
     }
