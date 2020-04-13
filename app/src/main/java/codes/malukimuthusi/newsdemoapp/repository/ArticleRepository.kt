@@ -5,6 +5,7 @@ import androidx.lifecycle.Transformations
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import androidx.paging.toLiveData
 import codes.malukimuthusi.newsdemoapp.dataDomain.Article
 import codes.malukimuthusi.newsdemoapp.database.ArticleDB
 import codes.malukimuthusi.newsdemoapp.database.ArticleDao
@@ -23,16 +24,23 @@ import timber.log.Timber
 * It refreshes the local data with data from the News API Service.
 * */
 class ArticleRepository(private val articleDao: ArticleDao) {
-
     /*
-    * Get a LiveData List of Articles. (as Data Domain Model)
+    * Return Paged Live List
+    *  Live<PagedList<Article>>
     *
-    * Convert the articles to Domain Data Model.
     * */
+    private val dataSourceFactory = articleDao.getAllArticles().mapByPage() { it.asDataDomainModel() }
 
-    val articlesFactory: DataSource.Factory<Int, ArticleDB> = articleDao.getAllArticles()
-    val articles = LivePagedListBuilder(articlesFactory, DATABASE_PAGE_SIZE).build()
-//    val articles = Transformations.map(articlesAsDB) { it.asDataDomainModel() }
+    // create a page configuration
+    private val pagedListConfig = PagedList.Config.Builder()
+        .setPageSize(DATABASE_PAGE_SIZE)
+        .setEnablePlaceholders(false)
+        .setInitialLoadSizeHint(60)
+        .build()
+
+    // Live Paged List
+    val articles = LivePagedListBuilder(dataSourceFactory, pagedListConfig).build()
+
 
     /*
     * Refresh the Articles in the Database, the offline Cache.

@@ -61,11 +61,11 @@ class ListFragment : Fragment() {
 
 
         /*
-        * Observe Changes in List of Articles.
+        * Observe Changes in PagedList of Articles.
         *
         * When the Articles change update UI.
         * */
-        viewModel.articles.observe(viewLifecycleOwner, Observer<PagedList<ArticleDB>> {
+        viewModel.articles.observe(viewLifecycleOwner, Observer {
             it.let {
                 adapter.submitList(it)
             }

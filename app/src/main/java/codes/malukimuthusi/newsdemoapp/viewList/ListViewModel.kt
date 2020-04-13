@@ -31,10 +31,6 @@ class ListViewModel(application: Application, databaseDAO: ArticleDao) :
     * */
     private val articleRepository = ArticleRepository(databaseDAO)
 
-    /*
-    * init is called imediately when this viewModel is created.
-    *
-    * */
 
     /*
     * Live data of a list of articles.

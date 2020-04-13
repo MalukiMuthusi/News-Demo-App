@@ -11,7 +11,7 @@
 
         <variable
             name="article"
-            type="codes.malukimuthusi.newsdemoapp.database.ArticleDB" />
+            type="codes.malukimuthusi.newsdemoapp.dataDomain.Article" />
 
     </data>
 

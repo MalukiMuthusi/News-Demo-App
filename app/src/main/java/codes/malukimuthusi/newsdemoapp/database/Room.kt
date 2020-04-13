@@ -17,10 +17,11 @@ interface ArticleDao {
     /*
     * Get a list of all articles.
     *
-    * Returns a LiveData List of Articles.
+    * Returns a  PagedList of Articles.
     * */
     @Query("SELECT * FROM articles_table")
     fun getAllArticles(): DataSource.Factory<Int, ArticleDB>
+
 
     /*
     * Insert an Article.

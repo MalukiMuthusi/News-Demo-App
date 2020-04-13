@@ -75,6 +75,10 @@ data class ArticleDB(
     }
 }
 
+/*
+* Convert a list of Database articles to a list of Data Domain Articles
+*
+* */
 fun List<ArticleDB>.asDataDomainModel(): List<Article> {
     return map {
         Article(

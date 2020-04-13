@@ -15,7 +15,7 @@ import codes.malukimuthusi.newsdemoapp.databinding.SingleItemBinding
 *
 * */
 class ArticlesAdapter(private val clickListener: ArticleClickListener) :
-    PagedListAdapter<ArticleDB, RecyclerView.ViewHolder>(ArticleDiff()) {
+    PagedListAdapter<Article, RecyclerView.ViewHolder>(ArticleDiff()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ArticleViewHolder.from(parent)
     }
@@ -42,7 +42,7 @@ class ArticleViewHolder private constructor(private val binding: SingleItemBindi
     * Bind data to the View
     *
     * */
-    fun bind(article: ArticleDB, clickListener: ArticleClickListener) {
+    fun bind(article: Article, clickListener: ArticleClickListener) {
         binding.article = article
         binding.clickListener = clickListener
 
@@ -67,12 +67,12 @@ class ArticleViewHolder private constructor(private val binding: SingleItemBindi
 * This class is used calculate data changes for the ListAdapter.
 *
 * */
-class ArticleDiff : DiffUtil.ItemCallback<ArticleDB>() {
-    override fun areItemsTheSame(oldItem: ArticleDB, newItem: ArticleDB): Boolean {
+class ArticleDiff : DiffUtil.ItemCallback<Article>() {
+    override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
         return oldItem.url == newItem.url
     }
 
-    override fun areContentsTheSame(oldItem: ArticleDB, newItem: ArticleDB): Boolean {
+    override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
         return oldItem == newItem
     }
 }
