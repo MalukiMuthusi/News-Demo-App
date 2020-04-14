@@ -1,11 +1,10 @@
 package codes.malukimuthusi.newsdemoapp.database
 
-import android.content.Context
-import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
-import androidx.room.*
-import androidx.room.Room.databaseBuilder
-import codes.malukimuthusi.newsdemoapp.dataDomain.Article
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 
 /*
 * Database Access Object. DAO
@@ -19,7 +18,7 @@ interface ArticleDao {
     *
     * Returns a  PagedList of Articles.
     * */
-    @Query("SELECT * FROM articles_table")
+    @Query("SELECT * FROM articles_table ORDER BY date DESC")
     fun getAllArticles(): DataSource.Factory<Int, ArticleDB>
 
 

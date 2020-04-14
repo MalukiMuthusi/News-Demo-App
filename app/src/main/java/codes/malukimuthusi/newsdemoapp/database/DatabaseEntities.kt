@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import codes.malukimuthusi.newsdemoapp.dataDomain.Article
 import codes.malukimuthusi.newsdemoapp.dataDomain.ArticleSource
+import java.util.*
 
 /*
 * This  file contains room database entities.
@@ -55,7 +56,8 @@ data class ArticleDB(
     @PrimaryKey() val url: String,
     val urlToImage: String?,
     val publishedAt: String,
-    val content: String?
+    val content: String?,
+    val date: Long = Calendar.getInstance().time.time
 ) {
     /*
     * Function to convert ArticleDB Entity into a dataDomain Model
