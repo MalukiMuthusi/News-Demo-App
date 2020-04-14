@@ -47,6 +47,7 @@
 
                 <TextView
                     android:id="@+id/articleTitleText"
+                    style="@style/Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_thin"
@@ -54,19 +55,19 @@
                     android:paddingLeft="2dp"
                     android:paddingRight="2dp"
                     android:text="@{article.title}"
-                    android:textSize="@dimen/titleFontSize"
-                    android:textStyle="bold"
-                    android:visibility="visible" />
+                    android:visibility="visible"
+                    tools:text="@string/title" />
 
                 <TextView
                     android:id="@+id/articleDescriptionText"
+                    style="@style/Description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="2dp"
                     android:paddingLeft="2dp"
                     android:paddingRight="2dp"
                     android:text="@{article.description}"
-                    android:textSize="@dimen/descFontSize" />
+                    tools:text="@string/description" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </FrameLayout>

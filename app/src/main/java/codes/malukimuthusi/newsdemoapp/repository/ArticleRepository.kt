@@ -94,9 +94,11 @@ class PagedListBoundaryCallBack : PagedList.BoundaryCallback<Article>() {
 
     override fun onItemAtEndLoaded(itemAtEnd: Article) {
         super.onItemAtEndLoaded(itemAtEnd)
+
     }
 
     override fun onItemAtFrontLoaded(itemAtFront: Article) {
         super.onItemAtFrontLoaded(itemAtFront)
+
     }
 }
