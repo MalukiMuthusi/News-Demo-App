@@ -1,20 +1,14 @@
 package codes.malukimuthusi.newsdemoapp.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
-import androidx.paging.DataSource
+import android.app.Application
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import androidx.paging.toLiveData
 import codes.malukimuthusi.newsdemoapp.dataDomain.Article
-import codes.malukimuthusi.newsdemoapp.database.ArticleDB
 import codes.malukimuthusi.newsdemoapp.database.ArticleDao
 import codes.malukimuthusi.newsdemoapp.database.ArticleDatabase
 import codes.malukimuthusi.newsdemoapp.database.asDataDomainModel
-import codes.malukimuthusi.newsdemoapp.network.ArticleService
 import codes.malukimuthusi.newsdemoapp.network.Network
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import timber.log.Timber
 
 /*
@@ -24,12 +18,19 @@ import timber.log.Timber
 * It refreshes the local data with data from the News API Service.
 * */
 class ArticleRepository(private val articleDao: ArticleDao) {
+
+    companion object {
+        private const val NETWORK_PAGE_SIZE = 50
+        private const val DATABASE_PAGE_SIZE = 20
+    }
+
     /*
     * Return Paged Live List
     *  Live<PagedList<Article>>
     *
     * */
-    private val dataSourceFactory = articleDao.getAllArticles().mapByPage() { it.asDataDomainModel() }
+    private val dataSourceFactory =
+        articleDao.getAllArticles().mapByPage() { it.asDataDomainModel() }
 
     // create a page configuration
     private val pagedListConfig = PagedList.Config.Builder()
@@ -38,16 +39,25 @@ class ArticleRepository(private val articleDao: ArticleDao) {
         .setInitialLoadSizeHint(60)
         .build()
 
+    // Boundary callBack object
+    private val boundaryCallBack = PagedListBoundaryCallBack()
+
     // Live Paged List
-    val articles = LivePagedListBuilder(dataSourceFactory, pagedListConfig).build()
+    val articles = LivePagedListBuilder(dataSourceFactory, pagedListConfig)
+        .setBoundaryCallback(boundaryCallBack)
+        .build()
 
 
-    /*
-    * Refresh the Articles in the Database, the offline Cache.
-    *
-    * Use Retrofit services to get articles.
-    * Insert those articles into the database.
-    * */
+}
+
+/*
+* Refresh the Articles in the Database, the offline Cache.
+*
+* Use Retrofit services to get articles.
+* Insert those articles into the database.
+* */
+class RefreshArticles(private val articleDao: ArticleDao) {
+
     suspend fun refreshArticles() {
         withContext(Dispatchers.IO)
         {
@@ -58,10 +68,35 @@ class ArticleRepository(private val articleDao: ArticleDao) {
             articleDao.insertArticle(*articles.asDatabaseModel())
         }
     }
+}
 
-    companion object {
-        private const val NETWORK_PAGE_SIZE = 50
-        private const val DATABASE_PAGE_SIZE = 20
+/*
+   * Bounday Call Back.
+   *
+   * When there are zero non-viewed articles in the database fetch articles from database
+   *
+   * */
+class PagedListBoundaryCallBack : PagedList.BoundaryCallback<Article>() {
+
+    val jobScope = Job()
+    val scope = CoroutineScope(jobScope)
+    val application = Application()
+    val dao = ArticleDatabase.getDatabase(application).articleDao
+    private val refreshArticles = RefreshArticles(dao)
+
+    override fun onZeroItemsLoaded() {
+        super.onZeroItemsLoaded()
+
+        scope.launch {
+            refreshArticles.refreshArticles()
+        }
     }
 
+    override fun onItemAtEndLoaded(itemAtEnd: Article) {
+        super.onItemAtEndLoaded(itemAtEnd)
+    }
+
+    override fun onItemAtFrontLoaded(itemAtFront: Article) {
+        super.onItemAtFrontLoaded(itemAtFront)
+    }
 }
