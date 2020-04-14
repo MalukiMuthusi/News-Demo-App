@@ -7,6 +7,7 @@ import kotlinx.coroutines.Deferred
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 /*
 * Retrofit Service to fetch News Article
@@ -15,8 +16,11 @@ import retrofit2.http.GET
 private const val BASEURL = "https://newsapi.org/v2/"
 
 interface ArticleService {
-    @GET("top-headlines?country=us&apiKey=24bb98441b3240d98aaf3f0f966eb444")
-    fun getArtilces(): Deferred<ApiResponse>
+    @GET("top-headlines")
+    fun getArtilces(
+        @Query("country") country: String = "us",
+        @Query("apiKey") apiKey: String = "24bb98441b3240d98aaf3f0f966eb444"
+    ): Deferred<ApiResponse>
 }
 
 /*
