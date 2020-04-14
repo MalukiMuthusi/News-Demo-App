@@ -1,6 +1,5 @@
 package codes.malukimuthusi.newsdemoapp.network
 
-import codes.malukimuthusi.newsdemoapp.dataDomain.Article
 import codes.malukimuthusi.newsdemoapp.dataDomain.ArticleSource
 import codes.malukimuthusi.newsdemoapp.database.ArticleDB
 import codes.malukimuthusi.newsdemoapp.database.ArticleSourceDB
@@ -63,10 +62,7 @@ data class ArticleNetwork(
     val urlToImage: String?,
     val publishedAt: String,
     val content: String?
-) {
-
-
-}
+)
 
 /*
 * Article Source.

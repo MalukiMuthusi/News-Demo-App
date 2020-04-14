@@ -9,8 +9,8 @@ import androidx.room.RoomDatabase
 * Create Room Database
 *
 * */
-@Database(entities = [ArticleDB::class], version = 2, exportSchema = false)
-abstract class ArticleDatabase() : RoomDatabase() {
+@Database(entities = [ArticleDB::class], version = 10, exportSchema = false)
+abstract class ArticleDatabase : RoomDatabase() {
     abstract val articleDao: ArticleDao
 
     companion object {

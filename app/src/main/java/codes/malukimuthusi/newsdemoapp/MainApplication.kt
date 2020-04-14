@@ -58,13 +58,15 @@ class MainApplication : Application() {
 
         /*
         * Create Work Manager.
+        *
         *   Request Work.
         *
         * */
         Timber.d("Periodic Work request for sync is scheduled")
         WorkManager.getInstance().enqueueUniquePeriodicWork(
             ApiWorker.WORK_NAME,
-            ExistingPeriodicWorkPolicy.KEEP, repeatingWorkRequest
+            ExistingPeriodicWorkPolicy.KEEP,
+            repeatingWorkRequest
         )
 
 
