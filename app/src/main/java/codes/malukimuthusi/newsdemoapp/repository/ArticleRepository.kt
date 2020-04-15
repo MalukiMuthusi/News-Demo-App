@@ -8,7 +8,10 @@ import codes.malukimuthusi.newsdemoapp.database.ArticleDao
 import codes.malukimuthusi.newsdemoapp.database.ArticleDatabase
 import codes.malukimuthusi.newsdemoapp.database.asDataDomainModel
 import codes.malukimuthusi.newsdemoapp.network.Network
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 /*
@@ -30,7 +33,7 @@ class ArticleRepository(private val articleDao: ArticleDao) {
     *
     * */
     private val dataSourceFactory =
-        articleDao.getAllArticles().mapByPage() { it.asDataDomainModel() }
+        articleDao.getAllArticles().mapByPage { it.asDataDomainModel() }
 
     // create a page configuration
     private val pagedListConfig = PagedList.Config.Builder()
@@ -71,16 +74,14 @@ class RefreshArticles(private val articleDao: ArticleDao) {
 }
 
 /*
-   * Bounday Call Back.
+   * Boundary Call Back.
    *
    * When there are zero non-viewed articles in the database fetch articles from database
    *
    * */
 class PagedListBoundaryCallBack : PagedList.BoundaryCallback<Article>() {
-
-    val jobScope = Job()
-    val scope = CoroutineScope(jobScope)
-    val application = Application()
+    private val scope = CoroutineScope(Dispatchers.Default)
+    private val application = Application()
     val dao = ArticleDatabase.getDatabase(application).articleDao
     private val refreshArticles = RefreshArticles(dao)
 
@@ -92,13 +93,4 @@ class PagedListBoundaryCallBack : PagedList.BoundaryCallback<Article>() {
         }
     }
 
-    override fun onItemAtEndLoaded(itemAtEnd: Article) {
-        super.onItemAtEndLoaded(itemAtEnd)
-
-    }
-
-    override fun onItemAtFrontLoaded(itemAtFront: Article) {
-        super.onItemAtFrontLoaded(itemAtFront)
-
-    }
 }
