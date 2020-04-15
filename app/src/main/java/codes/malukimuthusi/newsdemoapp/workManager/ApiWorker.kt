@@ -7,7 +7,13 @@ import codes.malukimuthusi.newsdemoapp.database.ArticleDatabase
 import codes.malukimuthusi.newsdemoapp.repository.RefreshArticles
 import timber.log.Timber
 
+/*
+* Worker for refreshing Articles.
+*
+* */
 class ApiWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, params) {
+
+    // Unique name of this work.
     companion object {
         const val WORK_NAME = "com.malukimuthusi.codes.ApiWorker"
     }

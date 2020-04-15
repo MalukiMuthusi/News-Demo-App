@@ -13,10 +13,6 @@ class MainApplication : Application() {
     private val applicationScope = CoroutineScope(Dispatchers.Default)
     private fun delayedInit() {
         applicationScope.launch {
-            /*
-       * OnCreate is the first methode to be called when user taps to open the app.
-       *
-       * */
             Timber.plant(Timber.DebugTree())
             fetchArticles()
         }
