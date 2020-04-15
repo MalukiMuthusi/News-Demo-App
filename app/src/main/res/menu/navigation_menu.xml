@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_gravity="center_vertical">
+
+    <item
+        android:layout_gravity="center_vertical"
+        android:title="@string/country" />
+    <item android:title="@string/news_source" />
+    <item android:title="@string/about" />
+</menu>
