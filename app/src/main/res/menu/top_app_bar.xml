@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/favorite"
+        android:contentDescription="@string/favourite_icon_description"
+        android:icon="@drawable/ic_favorite_black_24dp"
+        android:title="@string/favorite" />
+
+    <item
+        android:id="@+id/search"
+        android:contentDescription="@string/search_icon_description"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="@string/search"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/more"
+        android:contentDescription="@string/more_icon_description"
+        android:icon="@drawable/ic_more_vert_black_24dp"
+        android:title="@string/more_icon"
+        app:showAsAction="never" />
+</menu>

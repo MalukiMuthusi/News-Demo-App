@@ -1,8 +1,14 @@
 <resources>
-    <string name="app_name">News Demo App</string>
+    <string name="app_name">News App</string>
     <string name="item_title">Title of the News Article.</string>
     <string name="item_description">Description of the News Item.</string>
     <string name="image_description">An image of the News Item Header.</string>
     <string name="title">China\'s exports, imports fell in March but not as much as expected - CNBC</string>
     <string name="description">China reported that its dollar-denominated exports and imports fell from a year ago in March, but they were better than what economists had expected.</string>
+    <string name="favorite">Favourite</string>
+    <string name="search">Search</string>
+    <string name="search_icon_description">Search Articles</string>
+    <string name="favourite_icon_description">Show favourite Articles</string>
+    <string name="more_icon">More</string>
+    <string name="more_icon_description">More Options</string>
 </resources>
