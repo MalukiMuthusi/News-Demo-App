@@ -11,12 +11,13 @@ import timber.log.Timber
 * Worker for refreshing Articles.
 *
 * */
-class ApiWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, params) {
+class RefreshArticlesWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, params) {
 
     // Unique name of this work.
     companion object {
-        const val WORK_NAME = "com.malukimuthusi.codes.ApiWorker"
+        const val WORK_NAME = "com.malukimuthusi.codes.RefreshArticlesWorker"
     }
+
 
     override suspend fun doWork(): Result {
         return try {

@@ -2,7 +2,7 @@ package codes.malukimuthusi.newsdemoapp
 
 import android.app.Application
 import androidx.work.*
-import codes.malukimuthusi.newsdemoapp.workManager.ApiWorker
+import codes.malukimuthusi.newsdemoapp.workManager.RefreshArticlesWorker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -48,7 +48,7 @@ class MainApplication : Application() {
         *
         * */
         val repeatingWorkRequest =
-            PeriodicWorkRequestBuilder<ApiWorker>(16, TimeUnit.MINUTES)
+            PeriodicWorkRequestBuilder<RefreshArticlesWorker>(16, TimeUnit.MINUTES)
                 .setConstraints(constraints)
                 .build()
 
@@ -60,7 +60,7 @@ class MainApplication : Application() {
         * */
         Timber.d("Periodic Work request for sync is scheduled")
         WorkManager.getInstance().enqueueUniquePeriodicWork(
-            ApiWorker.WORK_NAME,
+            RefreshArticlesWorker.WORK_NAME,
             ExistingPeriodicWorkPolicy.KEEP,
             repeatingWorkRequest
         )

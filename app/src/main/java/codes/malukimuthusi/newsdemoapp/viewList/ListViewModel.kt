@@ -2,53 +2,40 @@ package codes.malukimuthusi.newsdemoapp.viewList
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
-import androidx.work.WorkManager
+import androidx.lifecycle.viewModelScope
 import codes.malukimuthusi.newsdemoapp.database.ArticleDao
 import codes.malukimuthusi.newsdemoapp.repository.ArticleRepository
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ListViewModel(application: Application, databaseDAO: ArticleDao) :
     AndroidViewModel(application) {
-    /**
-     * This is the job for all coroutines started by this ViewModel.
-     *
-     * Cancelling this job will cancel all coroutines started by this ViewModel.
-     */
-    private val viewModelJob = SupervisorJob()
-
-    /**
-     * This is the main scope for all coroutines launched by MainViewModel.
-     *
-     * Since we pass viewModelJob, you can cancel all coroutines launched by uiScope by calling
-     * viewModelJob.cancel()
-     */
-    private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
-
     /*
     * create a repository object.
     *
     * */
     private val articleRepository = ArticleRepository(databaseDAO)
 
-
     /*
-    * Live data of a list of articles.
+    * Live data of a Paged list of articles.
     *
     * The Fragment will observe this data.
     * This is the data submitted to the RecyclerView Adapter.
     *  submitList(articles)
+    *
     * */
     val articles = articleRepository.articles
 
-    override fun onCleared() {
-        super.onCleared()
 
-        /*
-        * Cancel all jobs started by this viewModel.
-        *
-        * */
-        viewModelScope.cancel()
+    private fun getArticles() {
+
+        viewModelScope.launch {
+
+            withContext(Dispatchers.IO) {
+                articleRepository.articles
+            }
+        }
     }
 
 

@@ -35,7 +35,7 @@ class ArticleRepository(private val articleDao: ArticleDao) {
     private val dataSourceFactory =
         articleDao.getAllArticles().mapByPage { it.asDataDomainModel() }
 
-    // create a page configuration
+    // Configuration for creating a Paged List
     private val pagedListConfig = PagedList.Config.Builder()
         .setPageSize(DATABASE_PAGE_SIZE)
         .setEnablePlaceholders(false)
