@@ -28,7 +28,7 @@ class ArticleRepository(private val articleDao: ArticleDao) {
     }
 
     /*
-    * Return Paged Live List
+    * Return Paged LiveData List
     *  Live<PagedList<Article>>
     *
     * */
@@ -49,6 +49,13 @@ class ArticleRepository(private val articleDao: ArticleDao) {
     val articles = LivePagedListBuilder(dataSourceFactory, pagedListConfig)
         .setBoundaryCallback(boundaryCallBack)
         .build()
+
+    // delete all articles
+    suspend fun deleteAllArticles() {
+        withContext(Dispatchers.IO) {
+            articleDao.deleteAllArticles()
+        }
+    }
 
 
 }

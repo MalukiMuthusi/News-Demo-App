@@ -14,4 +14,5 @@
     <string name="about">About</string>
     <string name="country">Country</string>
     <string name="news_source">News Source</string>
+    <string name="delete_all">Delete All</string>
 </resources>

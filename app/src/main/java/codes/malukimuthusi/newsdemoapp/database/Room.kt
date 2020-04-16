@@ -27,4 +27,21 @@ interface ArticleDao {
     * */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertArticle(vararg articleDB: ArticleDB)
+
+
+    /*
+    * Delete Old News Articles.
+    *
+    * Articles earlier than 24 hours
+    *
+    * */
+    @Query("DELETE FROM articles_table WHERE date >= :time")
+    fun deleteOldArticles(time: Long)
+
+    /*
+    * Delete all articles.
+    *
+    * */
+    @Query("DELETE  FROM articles_table")
+    fun deleteAllArticles()
 }
