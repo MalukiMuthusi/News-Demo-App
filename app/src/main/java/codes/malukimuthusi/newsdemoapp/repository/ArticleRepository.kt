@@ -38,7 +38,7 @@ class ArticleRepository(private val articleDao: ArticleDao) {
     // Configuration for creating a Paged List
     private val pagedListConfig = PagedList.Config.Builder()
         .setPageSize(DATABASE_PAGE_SIZE)
-        .setEnablePlaceholders(false)
+        .setEnablePlaceholders(true)
         .setInitialLoadSizeHint(60)
         .build()
 

@@ -31,7 +31,7 @@ class MainApplication : Application() {
     * Fetch News Articles Periodicaly.
     *
     * */
-    private fun fetchArticles() {
+    private suspend fun fetchArticles() {
         /*
         * Constraints for fetching News Articles.
         *  Must be connected to the network.
@@ -59,11 +59,13 @@ class MainApplication : Application() {
         *
         * */
         Timber.d("Periodic Work request for sync is scheduled")
-        WorkManager.getInstance().enqueueUniquePeriodicWork(
-            RefreshArticlesWorker.WORK_NAME,
-            ExistingPeriodicWorkPolicy.KEEP,
-            repeatingWorkRequest
-        )
+        WorkManager.getInstance()
+            .enqueueUniquePeriodicWork(
+                RefreshArticlesWorker.WORK_NAME,
+                ExistingPeriodicWorkPolicy.KEEP,
+                repeatingWorkRequest
+            )
+            .await()
 
 
     }
