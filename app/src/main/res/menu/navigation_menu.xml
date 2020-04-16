@@ -6,5 +6,9 @@
         android:layout_gravity="center_vertical"
         android:title="@string/country" />
     <item android:title="@string/news_source" />
+    <item
+        android:id="@+id/delete_all"
+        android:contentDescription="@string/favourite_icon_description"
+        android:title="@string/delete_all" />
     <item android:title="@string/about" />
 </menu>

@@ -38,7 +38,7 @@ class ListViewModel(application: Application, databaseDAO: ArticleDao) :
         }
     }
 
-    private fun deleteAllArticles() {
+    fun deleteAllArticles() {
         viewModelScope.launch {
             articleRepository.deleteAllArticles()
         }
