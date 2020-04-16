@@ -15,7 +15,7 @@ import retrofit2.http.Query
 * */
 private const val BASEURL = "https://newsapi.org/v2/"
 
-interface ArticleService {
+interface ArticleNetworkService {
     @GET("top-headlines")
     fun getArtilces(
         @Query("country") country: String = "us",
@@ -47,5 +47,5 @@ object Network {
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .build()
 
-    val apiService = retrofit.create(ArticleService::class.java)
+    val apiService = retrofit.create(ArticleNetworkService::class.java)
 }

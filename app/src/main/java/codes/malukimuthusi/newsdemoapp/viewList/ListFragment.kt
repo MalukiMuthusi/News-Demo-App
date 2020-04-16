@@ -70,6 +70,10 @@ class ListFragment : Fragment() {
             }
         })
 
+        // display drawer when menu icon clicked
+        binding.topAppBar.setNavigationOnClickListener {
+            binding.drawer.openDrawer(binding.navigation)
+        }
 
         /*
         * Return a UI View.

@@ -72,7 +72,9 @@ class RefreshArticles(private val articleDao: ArticleDao) {
         withContext(Dispatchers.IO)
         {
             Timber.d("refresh videos is called")
+
             val articles = Network.apiService.getArtilces().await()
+
 
             // * spread operator used.
             articleDao.insertArticle(*articles.asDatabaseModel())
