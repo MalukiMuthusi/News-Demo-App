@@ -3,6 +3,7 @@ package codes.malukimuthusi.newsdemoapp.network
 import codes.malukimuthusi.newsdemoapp.dataDomain.ArticleSource
 import codes.malukimuthusi.newsdemoapp.database.ArticleDB
 import codes.malukimuthusi.newsdemoapp.database.ArticleSourceDB
+import com.squareup.moshi.JsonClass
 
 /*
 * This file holds the data Transfer Objects.
@@ -23,6 +24,7 @@ import codes.malukimuthusi.newsdemoapp.database.ArticleSourceDB
 *   }
 *
 * */
+@JsonClass(generateAdapter = true)
 data class ApiResponse(
     val status: String,
     val totalResults: Int,
@@ -53,6 +55,7 @@ data class ApiResponse(
 * Articles
 *
 *  */
+@JsonClass(generateAdapter = true)
 data class ArticleNetwork(
     val source: ArticleSourceNetwork,
     val author: String?,
@@ -68,6 +71,7 @@ data class ArticleNetwork(
 * Article Source.
 *
 * */
+@JsonClass(generateAdapter = true)
 data class ArticleSourceNetwork(
     val id: String?,
     val name: String

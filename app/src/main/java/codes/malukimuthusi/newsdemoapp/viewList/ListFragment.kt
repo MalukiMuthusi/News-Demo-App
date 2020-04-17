@@ -82,16 +82,6 @@ class ListFragment : Fragment() {
         * When delete icon clicked on the menu
         *
         * */
-//        binding.topAppBar.setOnMenuItemClickListener {
-//            when (it.itemId) {
-//                R.id.delete_all -> {
-//                    viewModel.deleteAllArticles()
-//                    true
-//                }
-//                else -> false
-//            }
-//        }
-
         binding.navigationDrawer.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.delete_all -> {
@@ -100,6 +90,21 @@ class ListFragment : Fragment() {
                 }
                 else -> false
             }
+        }
+
+        /*
+        * Refresh articles.
+        *
+        * */
+        binding.topAppBar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.refresh -> {
+                    viewModel.getArticles()
+                    true
+                }
+                else -> false
+            }
+
         }
         /*
         * Return a UI View.

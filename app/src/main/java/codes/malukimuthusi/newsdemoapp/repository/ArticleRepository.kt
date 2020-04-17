@@ -13,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.net.UnknownHostException
 
 /*
 * Create repository that will be used as the data source.
@@ -71,13 +72,17 @@ class RefreshArticles(private val articleDao: ArticleDao) {
     suspend fun refreshArticles() {
         withContext(Dispatchers.IO)
         {
-            Timber.d("refresh videos is called")
+            try {
+                Timber.d("refresh videos is called")
+                val articles = Network.apiService.getArtilces().await()
+                // * spread operator used.
+                articleDao.insertArticle(*articles.asDatabaseModel())
+            } catch (noInternet: UnknownHostException) {
+                Timber.e("No network connection error $noInternet")
+            } catch (e: Throwable) {
+                Timber.e("Network Error $e")
+            }
 
-            val articles = Network.apiService.getArtilces().await()
-
-
-            // * spread operator used.
-            articleDao.insertArticle(*articles.asDatabaseModel())
         }
     }
 }

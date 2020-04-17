@@ -28,7 +28,7 @@ class ListViewModel(application: Application, databaseDAO: ArticleDao) :
     val articles = articleRepository.articles
 
 
-    private fun getArticles() {
+    fun getArticles() {
 
         viewModelScope.launch {
 

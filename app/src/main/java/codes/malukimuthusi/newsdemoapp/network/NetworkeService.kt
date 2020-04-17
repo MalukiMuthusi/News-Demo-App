@@ -2,7 +2,6 @@ package codes.malukimuthusi.newsdemoapp.network
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.Deferred
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -15,6 +14,7 @@ import retrofit2.http.Query
 * */
 private const val BASEURL = "https://newsapi.org/v2/"
 
+// Retrofit turns HTTP API into Kotlin interface
 interface ArticleNetworkService {
     @GET("top-headlines")
     fun getArtilces(
@@ -29,7 +29,6 @@ interface ArticleNetworkService {
 * Retrofit uses moshi to parse json response string to kotlin objects.
 * */
 private val mosh = Moshi.Builder()
-    .add(KotlinJsonAdapterFactory())
     .build()
 
 /*
@@ -47,5 +46,6 @@ object Network {
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .build()
 
+    // retrofit generates an implementation of ArticleNetworkService interface.
     val apiService = retrofit.create(ArticleNetworkService::class.java)
 }
