@@ -1,17 +1,15 @@
 package codes.malukimuthusi.newsdemoapp.repository
 
-import android.app.Application
+import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import codes.malukimuthusi.newsdemoapp.dataDomain.Article
 import codes.malukimuthusi.newsdemoapp.database.ArticleDao
-import codes.malukimuthusi.newsdemoapp.database.ArticleDatabase
 import codes.malukimuthusi.newsdemoapp.database.asDataDomainModel
 import codes.malukimuthusi.newsdemoapp.network.Network
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 /*
@@ -27,79 +25,69 @@ class ArticleRepository(private val articleDao: ArticleDao) {
         private const val DATABASE_PAGE_SIZE = 20
     }
 
-    /*
-    * Return Paged LiveData List
-    *  Live<PagedList<Article>>
-    *
-    * */
-    private val dataSourceFactory =
-        articleDao.getAllArticles().mapByPage { it.asDataDomainModel() }
-
-    // Configuration for creating a Paged List
-    private val pagedListConfig = PagedList.Config.Builder()
-        .setPageSize(DATABASE_PAGE_SIZE)
-        .setEnablePlaceholders(true)
-        .setInitialLoadSizeHint(60)
-        .build()
 
     // Boundary callBack object
     private val boundaryCallBack = PagedListBoundaryCallBack()
 
-    // Live Paged List
-    val articles = LivePagedListBuilder(dataSourceFactory, pagedListConfig)
-        .setBoundaryCallback(boundaryCallBack)
-        .build()
+
+    fun getArticles(): LiveData<PagedList<Article>> {
+        val dataSourceFactory =
+            articleDao.getAllArticles().mapByPage { it.asDataDomainModel() }
+
+        // Configuration for creating a Paged List
+        val pagedListConfig = PagedList.Config.Builder()
+            .setPageSize(DATABASE_PAGE_SIZE)
+            .setEnablePlaceholders(true)
+            .setInitialLoadSizeHint(60)
+            .build()
+
+        return LivePagedListBuilder(dataSourceFactory, pagedListConfig)
+            .setBoundaryCallback(boundaryCallBack)
+            .build()
+    }
 
     // delete all articles
-    suspend fun deleteAllArticles() {
-        withContext(Dispatchers.IO) {
-            articleDao.deleteAllArticles()
-        }
+    fun deleteAllArticles() {
+        articleDao.deleteAllArticles()
+
     }
 
-
-}
-
-/*
-* Refresh the Articles in the Database, the offline Cache.
-*
-* Use Retrofit services to get articles.
-* Insert those articles into the database.
-* */
-class RefreshArticles(private val articleDao: ArticleDao) {
-
-    suspend fun refreshArticles() {
-        withContext(Dispatchers.IO)
-        {
-            Timber.d("refresh videos is called")
-
+    /*
+    * Refresh the Articles in the Database, the offline Cache.
+    *
+    * Use Retrofit services to get articles.
+    * Insert those articles into the database.
+    * */
+    suspend fun refreshArticles(articleDao: ArticleDao) {
+        try {
+            Timber.d("Refresh articles is called.")
             val articles = Network.apiService.getArtilces().await()
-
-
-            // * spread operator used.
             articleDao.insertArticle(*articles.asDatabaseModel())
+        } catch (t: Throwable) {
+            Timber.e("Refresh articles Error $t")
         }
-    }
-}
 
-/*
+    }
+
+    /*
    * Boundary Call Back.
    *
    * When there are zero non-viewed articles in the database fetch articles from database
    *
    * */
-class PagedListBoundaryCallBack : PagedList.BoundaryCallback<Article>() {
-    private val scope = CoroutineScope(Dispatchers.Default)
-    private val application = Application()
-    val dao = ArticleDatabase.getDatabase(application).articleDao
-    private val refreshArticles = RefreshArticles(dao)
+    inner class PagedListBoundaryCallBack :
+        PagedList.BoundaryCallback<Article>() {
 
-    override fun onZeroItemsLoaded() {
-        super.onZeroItemsLoaded()
-
-        scope.launch {
-            refreshArticles.refreshArticles()
+        override fun onZeroItemsLoaded() {
+            super.onZeroItemsLoaded()
+            CoroutineScope(Dispatchers.IO).launch {
+                refreshArticles(articleDao)
+            }
         }
+
     }
 
+
 }
+
+

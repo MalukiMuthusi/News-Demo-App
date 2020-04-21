@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import codes.malukimuthusi.newsdemoapp.R
 import codes.malukimuthusi.newsdemoapp.database.ArticleDatabase
 import codes.malukimuthusi.newsdemoapp.databinding.ListFragmentBinding
 
@@ -92,15 +91,15 @@ class ListFragment : Fragment() {
 //            }
 //        }
 
-        binding.navigationDrawer.setNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.delete_all -> {
-                    viewModel.deleteAllArticles()
-                    true
-                }
-                else -> false
-            }
-        }
+//        binding.navigationDrawer.setNavigationItemSelectedListener {
+//            when (it.itemId) {
+//                R.id.delete_all -> {
+//                    viewModel.deleteAllArticles()
+//                    true
+//                }
+//                else -> false
+//            }
+//        }
         /*
         * Return a UI View.
         *

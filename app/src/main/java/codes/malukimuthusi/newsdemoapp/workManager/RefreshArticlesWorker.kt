@@ -1,37 +1,86 @@
 package codes.malukimuthusi.newsdemoapp.workManager
 
 import android.content.Context
-import androidx.work.CoroutineWorker
-import androidx.work.WorkerParameters
+import androidx.work.*
 import codes.malukimuthusi.newsdemoapp.database.ArticleDatabase
-import codes.malukimuthusi.newsdemoapp.repository.RefreshArticles
+import codes.malukimuthusi.newsdemoapp.repository.ArticleRepository
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 
 /*
 * Worker for refreshing Articles.
 *
 * */
-class RefreshArticlesWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, params) {
+class RefreshArticlesWorker(
+    private val ctx: Context,
+    params: WorkerParameters
+) : CoroutineWorker(ctx, params) {
 
     // Unique name of this work.
     companion object {
         const val WORK_NAME = "com.malukimuthusi.codes.RefreshArticlesWorker"
     }
 
+    val articleDao = ArticleDatabase.getDatabase(ctx).articleDao
+    val articleRepository = ArticleRepository(articleDao)
+
 
     override suspend fun doWork(): Result {
         return try {
             // Refresh Articles
-            val refreshArticles =
-                RefreshArticles(ArticleDatabase.getDatabase(applicationContext).articleDao)
 
-            refreshArticles.refreshArticles()
+            Timber.d("Periodic Work")
+            articleRepository.refreshArticles(articleDao)
+
             Result.success()
         } catch (throwable: Throwable) {
-            Timber.e(throwable)
+            Timber.e("Periodic Work: $throwable")
             Result.failure()
         }
 
 
     }
+}
+
+/*
+    * Fetch News Articles Periodicaly.
+    *
+    * */
+suspend fun refreshNewsArticles() {
+    /*
+    * Constraints for fetching News Articles.
+    *  Must be connected to the network.
+    *
+    * */
+    val constraints = Constraints.Builder()
+        .setRequiredNetworkType(NetworkType.CONNECTED)
+        .setRequiresBatteryNotLow(true)
+        .build()
+
+    /*
+    * Build Work Request.
+    *   With Constraints.
+    *
+    * */
+    val repeatingWorkRequest =
+        PeriodicWorkRequestBuilder<RefreshArticlesWorker>(16, TimeUnit.MINUTES)
+            .setConstraints(constraints)
+            .build()
+
+    /*
+    * Create Work Manager.
+    *
+    *   Request Work.
+    *
+    * */
+    Timber.d("Periodic Work request for sync is scheduled")
+    WorkManager.getInstance()
+        .enqueueUniquePeriodicWork(
+            RefreshArticlesWorker.WORK_NAME,
+            ExistingPeriodicWorkPolicy.KEEP,
+            repeatingWorkRequest
+        )
+        .await()
+
+
 }
