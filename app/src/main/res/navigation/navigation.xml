@@ -10,8 +10,4 @@
         android:name="codes.malukimuthusi.newsdemoapp.viewList.ListFragment"
         android:label="list_fragment"
         tools:layout="@layout/list_fragment" />
-    <fragment
-        android:id="@+id/detailFragment"
-        android:name="codes.malukimuthusi.newsdemoapp.viewDetail.DetailFragment"
-        android:label="DetailFragment" />
 </navigation>

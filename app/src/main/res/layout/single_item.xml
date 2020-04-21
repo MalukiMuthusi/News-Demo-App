@@ -15,59 +15,63 @@
 
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rootSingleItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.card.MaterialCardView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/materialCard"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            app:cardCornerRadius="4dp">
+            app:cardCornerRadius="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="0dp"
+                android:layout_height="220dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription="@string/image_description"
+                app:imageUrl="@{article.urlToImage}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/flat_multitasking" />
+
+            <TextView
+                android:id="@+id/articleDescriptionText"
+                style="@style/Description"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:background="#FFFFFF"
-                android:orientation="vertical"
-                android:padding="8dp">
+                android:padding="2dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:text="@{article.description}"
+                app:autoSizeTextType="none"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/articleTitleText"
+                tools:text="@string/description" />
 
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="match_parent"
-                    android:layout_height="280dp"
-                    android:contentDescription="@string/image_description"
-                    app:imageUrl="@{article.urlToImage}"
-                    app:srcCompat="@drawable/flat_multitasking" />
+            <TextView
+                android:id="@+id/articleTitleText"
+                style="@style/Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_thin"
+                android:padding="2dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:text="@{article.title}"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                tools:text="@string/title" />
 
-
-                <TextView
-                    android:id="@+id/articleTitleText"
-                    style="@style/Title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_thin"
-                    android:padding="2dp"
-                    android:paddingLeft="2dp"
-                    android:paddingRight="2dp"
-                    android:text="@{article.title}"
-                    android:visibility="visible"
-                    tools:text="@string/title" />
-
-                <TextView
-                    android:id="@+id/articleDescriptionText"
-                    style="@style/Description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="2dp"
-                    android:paddingLeft="2dp"
-                    android:paddingRight="2dp"
-                    android:text="@{article.description}"
-                    tools:text="@string/description" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-    </FrameLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
