@@ -4,10 +4,6 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    buildFeatures {
-        dataBinding = true
-    }
-
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
@@ -49,6 +45,10 @@ android {
         unitTests {
             includeAndroidResources = true
         }
+    }
+
+    dataBinding {
+        enabled = true
     }
 
 }
