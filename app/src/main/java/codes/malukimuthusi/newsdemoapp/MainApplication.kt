@@ -12,7 +12,7 @@ class MainApplication : Application() {
     private fun delayedInit() {
         applicationScope.launch {
             Timber.plant(Timber.DebugTree())
-            refreshNewsArticles()
+            refreshNewsArticles(this@MainApplication)
         }
     }
 

@@ -18,7 +18,7 @@ interface ArticleDao {
     *
     * Returns a  PagedList of Articles.
     * */
-    @Query("SELECT * FROM articles_table ORDER BY date DESC")
+    @Query("SELECT * FROM articles_table")
     fun getAllArticles(): DataSource.Factory<Int, ArticleDB>
 
 

@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
 *
 * */
 class RefreshArticlesWorker(
-    private val ctx: Context,
+    ctx: Context,
     params: WorkerParameters
 ) : CoroutineWorker(ctx, params) {
 
@@ -35,7 +35,7 @@ class RefreshArticlesWorker(
             Result.success()
         } catch (throwable: Throwable) {
             Timber.e("Periodic Work: $throwable")
-            Result.failure()
+            Result.retry()
         }
 
 
@@ -46,7 +46,8 @@ class RefreshArticlesWorker(
     * Fetch News Articles Periodicaly.
     *
     * */
-suspend fun refreshNewsArticles() {
+suspend fun refreshNewsArticles(ctx: Context) {
+
     /*
     * Constraints for fetching News Articles.
     *  Must be connected to the network.
@@ -62,7 +63,7 @@ suspend fun refreshNewsArticles() {
     *   With Constraints.
     *
     * */
-    val repeatingWorkRequest =
+    val refreshArticlesRepetitiveWorkRequest =
         PeriodicWorkRequestBuilder<RefreshArticlesWorker>(16, TimeUnit.MINUTES)
             .setConstraints(constraints)
             .build()
@@ -74,11 +75,11 @@ suspend fun refreshNewsArticles() {
     *
     * */
     Timber.d("Periodic Work request for sync is scheduled")
-    WorkManager.getInstance()
+    WorkManager.getInstance(ctx)
         .enqueueUniquePeriodicWork(
             RefreshArticlesWorker.WORK_NAME,
             ExistingPeriodicWorkPolicy.KEEP,
-            repeatingWorkRequest
+            refreshArticlesRepetitiveWorkRequest
         )
         .await()
 
