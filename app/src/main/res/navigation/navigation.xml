@@ -9,5 +9,24 @@
         android:id="@+id/listFragment"
         android:name="codes.malukimuthusi.newsdemoapp.viewList.ListFragment"
         android:label="list_fragment"
-        tools:layout="@layout/list_fragment" />
+        tools:layout="@layout/list_fragment" >
+        <action
+            android:id="@+id/action_listFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="codes.malukimuthusi.newsdemoapp.ui.details.DetailsFragment"
+        android:label="details_fragment"
+        tools:layout="@layout/details_fragment" />
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="codes.malukimuthusi.newsdemoapp.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
+    <activity
+        android:id="@+id/details2"
+        android:name="codes.malukimuthusi.newsdemoapp.Details"
+        android:label="details_activity"
+        tools:layout="@layout/details_activity" />
 </navigation>
