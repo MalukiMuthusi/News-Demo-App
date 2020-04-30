@@ -42,7 +42,6 @@ data class ArticleSourceDB(
 * */
 @Entity(tableName = "articles_table")
 data class ArticleDB(
-    val primaryID: Long = 0L,
 
     /*
     * Embed the article source.
@@ -57,7 +56,9 @@ data class ArticleDB(
     val urlToImage: String?,
     val publishedAt: String,
     val content: String?,
-    val date: Long = Calendar.getInstance().time.time
+    val date: Long = Calendar.getInstance().time.time,
+    val primaryID: Long = 0L
+
 ) {
     /*
     * Function to convert ArticleDB Entity into a dataDomain Model

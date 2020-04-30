@@ -1,8 +1,8 @@
 package codes.malukimuthusi.newsdemoapp.network
 
-import codes.malukimuthusi.newsdemoapp.dataDomain.ArticleSource
 import codes.malukimuthusi.newsdemoapp.database.ArticleDB
 import codes.malukimuthusi.newsdemoapp.database.ArticleSourceDB
+import java.util.*
 
 /*
 * This file holds the data Transfer Objects.
@@ -33,18 +33,9 @@ data class ApiResponse(
     * Convert the response into a Database Model
     *
     * */
-    fun asDatabaseModel(): Array<ArticleDB> {
-        return articles.map {
-            ArticleDB(
-                source = it.source.asDatabaseModel(),
-                author = it.author,
-                title = it.title,
-                description = it.description,
-                url = it.url,
-                urlToImage = it.urlToImage,
-                publishedAt = it.publishedAt,
-                content = it.content
-            )
+    fun asDatabaseModel(dateDefault: Long = Calendar.getInstance().time.time): Array<ArticleDB> {
+        return articles.map { articleNetwork ->
+            articleNetwork.asArticleDB(dateDefault)
         }.toTypedArray()
     }
 }
@@ -62,7 +53,21 @@ data class ArticleNetwork(
     val urlToImage: String?,
     val publishedAt: String,
     val content: String?
-)
+) {
+    fun asArticleDB(dateDefault: Long = Calendar.getInstance().time.time): ArticleDB {
+        return ArticleDB(
+            source.asSourceDB(),
+            author,
+            title,
+            description,
+            url,
+            urlToImage,
+            publishedAt,
+            content,
+            date = dateDefault
+        )
+    }
+}
 
 /*
 * Article Source.
@@ -74,21 +79,10 @@ data class ArticleSourceNetwork(
 ) {
 
     /*
-    * Convert to a Data Domain Model
-    *
-    * */
-    fun asDataDomainModel(): ArticleSource {
-        return ArticleSource(
-            id = id,
-            name = name
-        )
-    }
-
-    /*
     * Convert to a Database Model.
     *
     * */
-    fun asDatabaseModel(): ArticleSourceDB {
+    fun asSourceDB(): ArticleSourceDB {
         return ArticleSourceDB(
             sourceID = id,
             sourceName = name
