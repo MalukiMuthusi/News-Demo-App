@@ -44,4 +44,10 @@ interface ArticleDao {
     * */
     @Query("DELETE  FROM articles_table")
     fun deleteAllArticles()
+
+    /*
+    * Get article with this url
+    * */
+    @Query("SELECT * FROM articles_table WHERE url is :url")
+    fun getArticleWithUrl(url: String): ArticleDB
 }

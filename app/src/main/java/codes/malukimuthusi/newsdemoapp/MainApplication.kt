@@ -1,7 +1,6 @@
 package codes.malukimuthusi.newsdemoapp
 
 import android.app.Application
-import codes.malukimuthusi.newsdemoapp.workManager.refreshNewsArticles
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -12,7 +11,7 @@ class MainApplication : Application() {
     private fun delayedInit() {
         applicationScope.launch {
             Timber.plant(Timber.DebugTree())
-            refreshNewsArticles(this@MainApplication)
+//            refreshNewsArticles(this@MainApplication)
         }
     }
 
